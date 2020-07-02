@@ -1,0 +1,16 @@
+{
+    "email_propietario": "ejemplo@ejemplo.com",
+    "plan": "basico",
+    "ip_origen": "192.168.0.2",
+    "ip_destino": "192.168.0.3",
+    "cuentas_a_migrar":[
+        {
+            "correo": "migro1@migro.com",
+            "contrasena": "dfijbj4343,3"
+        },
+        {
+            "correo": "migro2@migro.com",
+            "contrasena": "ddsfdsd32343243"
+        }
+    ]
+}
