@@ -1,5 +1,5 @@
 .env
-server/ImapSync/*
+server/ImapSync/**
 *.txt
 *.zip
-server/node_modules/
+**/server/node_modules
