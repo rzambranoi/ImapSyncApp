@@ -5,17 +5,25 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "vue-cli-service serve --open"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@fortawesome/vue-fontawesome": "^0.1.10",
     "@hapi/joi": "^17.1.1",
     "bootstrap": "^4.5.0",
     "bootswatch": "^4.5.0",
     "core-js": "^3.6.5",
+    "datatables.net": "^1.10.21",
     "joi": "^14.3.1",
     "jquery": "^3.5.1",
+    "mdbootstrap": "^4.19.1",
+    "mdbvue": "6.7.1",
     "popper.js": "^1.16.1",
     "vue": "^2.6.11",
+    "vue-bootstrap4-table": "^1.1.11",
     "vue-router": "^3.2.0"
   },
   "devDependencies": {
@@ -27,6 +35,7 @@
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^6.2.2",
+    "vue-cli-plugin-mdb": "~2.1.0",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {

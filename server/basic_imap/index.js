@@ -30,31 +30,51 @@ router.post(
     check("origin_password").trim().isLength({ min: 1 }).exists(),
   ],
   (req, res) => {
-    const errors = validationResult(req);
+    let errors = validationResult(req);
+
+
     if (!errors.isEmpty()) {
-      return res.status(422).json({ error: errors.array() });
+      return res.status(422).json({ 
+        error: errors.array() 
+      });
+    }
+
+    if(req.body.origin_IP === req.body.destination_IP){
+      return res.status(422).json({ 
+        error: "IPs Must be different" 
+      });
     }
 
     const username = req.user.username;
 
     basic_imapDB
-      .findOne({
+      .find({
         username: username,
       })
       .then((user) => {
-        if (!user) {
-          const new_sync = {
-            username: username,
-            email: AESencrypt(req.body.email),
-            destination_IP: AESencrypt(req.body.destination_IP),
-            origin_IP: AESencrypt(req.body.origin_IP),
-            destination_password: AESencrypt(req.body.destination_password),
-            origin_password: AESencrypt(req.body.origin_password),
-          };
+        console.log(user);
+        user.forEach((sync) => {
+          if(sync.status === 'In Queue'){
+            return res.status(402).json({
+              error: "You already have a migration",
+            });
+          }
+        });
+        
+        const new_sync = {
+          username: username,
+          email: AESencrypt(req.body.email),
+          destination_IP: AESencrypt(req.body.destination_IP),
+          origin_IP: AESencrypt(req.body.origin_IP),
+          destination_password: AESencrypt(req.body.destination_password),
+          origin_password: AESencrypt(req.body.origin_password),
+          status: "In Queue",
+          date: new Date().getTime()/1000,
+        };
 
-          basic_imapDB.insert(new_sync).then((result) => {
-            return res.status(200).json(result);
-          });
+        basic_imapDB.insert(new_sync).then((result) => {
+          return res.status(200).json(result);
+        });
           // const path = `./basic_imap/clients/${new_sync.username}.txt`;
           // const file_data = `${new_sync.origin_IP};${new_sync.email};${new_sync.origin_password};${new_sync.destination_IP};${new_sync.email};${new_sync.destination_password};`;
 
@@ -62,11 +82,7 @@ router.post(
           //   if (err) console.log(err);
           //   console.log("Successfully Written to File.");
           // });
-        } else {
-          return res.status(402).json({
-            error: "You already have a migration",
-          });
-        }
+        
       });
   }
 );

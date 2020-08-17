@@ -21,7 +21,7 @@
             <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbardrop">
               <router-link class="dropdown-item" :to="{ name: 'NewImap' }" href="#" >Basic Sync</router-link>
               <span class="dropdown-item">Premium Sync</span>
-              <span class="dropdown-item">Historial</span>
+              <router-link class="dropdown-item" :to="{ name: 'History' }" href="#" >History</router-link>
               <a class="dropdown-item" href="#" v-on:click="Logout">Logout</a>
             </div>
           </li>
@@ -34,6 +34,8 @@
 </template>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
+
 .dropdown-menu{
   cursor: pointer;
 }
