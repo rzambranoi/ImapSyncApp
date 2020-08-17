@@ -115,7 +115,7 @@ const schema = Joi.object().keys({
     origin_IP: Joi.string().required().pattern(new RegExp(/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/)),
     destination_IP: Joi.string().required().pattern(new RegExp(/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/)),
     origin_password: Joi.string().required().trim().min(1),
-    destination_password:Joi.string().required().trim().min(1),
+    destination_password: Joi.string().required().trim().min(1),
 });
 
 
@@ -156,13 +156,13 @@ export default{
                     if(response.ok){
                         return response.json();
                     }else{
-                        return response.json().then((error) => {
-                            console.log(error.Error)
-                            throw new Error(error.Error);
+                        return response.json().then((Err) => {
+                            console.error(Err.error)
+                            throw new Error(Err.error);
                         });
                     }
                 }).then((result) =>{
-                    this.$router.push('/');
+                    this.$router.push('/history');
                     alert("Your Migration Is on Queue");
                 }).catch((error)=>{
                     document.getElementById("submit-button").style.display = "";

@@ -32,9 +32,8 @@ router.use(middleware.checkTokenSetUser);
 
 //Rutas:
 router.use(require("./basic_imap/index"));
-
 router.use(require("./users/index"));
-//app.use(require('./cola_imap/index'));
+router.use(require("./History/index"));
 
 //Ruta incial:
 router.get("/", (req, res) => {

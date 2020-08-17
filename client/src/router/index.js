@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import SingUp from "../views/SingUp.vue";
 import Login from "../views/Login.vue";
 import NewImap from "../views/NewImap.vue";
+import History from "../views/History.vue";
 
 Vue.use(VueRouter);
 
@@ -53,6 +54,12 @@ const routes = [
     path: "/new_imap",
     name: "NewImap",
     component: NewImap,
+    beforeEnter: onlyIfLoogged
+  },
+  {
+    path: "/history",
+    name: "History",
+    component: History,
     beforeEnter: onlyIfLoogged
   }
 ];
