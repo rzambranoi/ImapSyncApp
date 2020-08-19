@@ -1,6 +1,5 @@
 const { Router } = require("express");
 const router = Router();
-const { spawn } = require("child_process");
 const verifyToken = require("../Middlewares/verifyToken.js");
 const db = require("../db/connection");
 const CryptoJS = require("crypto-js");
@@ -19,6 +18,16 @@ function AESencrypt(to_encrypt) {
   ).toString();
 }
 
+const createFile = async (username, body) => {
+  const path = `./basic_imap/clients/${username}.txt`;
+  const file_data = `${body.origin_IP};${body.email};${body.origin_password};${body.destination_IP};${body.email};${body.destination_password};`;
+
+  return fs.writeFile(path, file_data, (err) => {
+    if (err) console.log(err);
+    console.log("Successfully Written to File.");
+  });
+};
+
 router.post(
   "/basic_imap",
   verifyToken,
@@ -32,16 +41,15 @@ router.post(
   (req, res) => {
     let errors = validationResult(req);
 
-
     if (!errors.isEmpty()) {
-      return res.status(422).json({ 
-        error: errors.array() 
+      return res.status(422).json({
+        error: errors.array(),
       });
     }
 
-    if(req.body.origin_IP === req.body.destination_IP){
-      return res.status(422).json({ 
-        error: "IPs Must be different" 
+    if (req.body.origin_IP === req.body.destination_IP) {
+      return res.status(422).json({
+        error: "IPs Must be different",
       });
     }
 
@@ -52,15 +60,14 @@ router.post(
         username: username,
       })
       .then((user) => {
-        console.log(user);
         user.forEach((sync) => {
-          if(sync.status === 'In Queue'){
+          if (sync.status === "In Queue") {
             return res.status(402).json({
               error: "You already have a migration",
             });
           }
         });
-        
+
         const new_sync = {
           username: username,
           email: AESencrypt(req.body.email),
@@ -69,20 +76,14 @@ router.post(
           destination_password: AESencrypt(req.body.destination_password),
           origin_password: AESencrypt(req.body.origin_password),
           status: "In Queue",
-          date: new Date().getTime()/1000,
+          date: new Date().getTime() / 1000,
         };
+
+        createFile(username, req.body).then();
 
         basic_imapDB.insert(new_sync).then((result) => {
           return res.status(200).json(result);
         });
-          // const path = `./basic_imap/clients/${new_sync.username}.txt`;
-          // const file_data = `${new_sync.origin_IP};${new_sync.email};${new_sync.origin_password};${new_sync.destination_IP};${new_sync.email};${new_sync.destination_password};`;
-
-          // fs.writeFile(path, file_data, (err) => {
-          //   if (err) console.log(err);
-          //   console.log("Successfully Written to File.");
-          // });
-        
       });
   }
 );

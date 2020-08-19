@@ -10,9 +10,10 @@ function AESdencrypt(to_decrypt) {
     to_decrypt,
     process.env.SECRET_ECRYPT_KEY
   ).toString(CryptoJS.enc.Utf8);
+  // return to_decrypt;
 }
 
-function dateConver(timestamp){
+function dateConver(timestamp) {
   let ts_ms = timestamp * 1000;
   let date_ob = new Date(ts_ms);
   let year = date_ob.getFullYear();
@@ -20,7 +21,7 @@ function dateConver(timestamp){
   let day = ("0" + date_ob.getDate()).slice(-2);
   let hours = ("0" + date_ob.getHours()).slice(-2);
   let minutes = ("0" + date_ob.getMinutes()).slice(-2);
-  return day + '/' + month + '/' + year + ' - ' + hours + ':' + minutes
+  return day + "/" + month + "/" + year + " - " + hours + ":" + minutes;
 }
 
 router.get("/history", verifyToken, (req, res) => {
@@ -32,27 +33,25 @@ router.get("/history", verifyToken, (req, res) => {
     })
     .then((imap) => {
       if (imap) {
-        let result = []
+        let result = [];
         imap.forEach((sync) => {
-          const row ={
-            'id': sync._id,
-            'date': dateConver(sync.date),
-            'email': AESdencrypt(sync.email),
-            'ip' : {
-              'origin': AESdencrypt(sync.origin_IP),
-              'destination': AESdencrypt(sync.destination_IP)
+          const row = {
+            id: sync._id,
+            date: dateConver(sync.date),
+            email: AESdencrypt(sync.email),
+            ip: {
+              origin: AESdencrypt(sync.origin_IP),
+              destination: AESdencrypt(sync.destination_IP),
             },
-            'status': sync.status,
-            'options':'✏❌'
-          }
-          result.push(row)
+            status: sync.status,
+            options: "✏❌",
+          };
+          result.push(row);
         });
 
         return res.status(200).json(result);
-        
       }
     });
-
 });
 
 module.exports = router;

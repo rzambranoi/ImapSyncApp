@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 #
 # $Id: sync_loop_unix.sh,v 1.6 2015/11/04 18:23:04 gilles Exp gilles $
 
@@ -27,7 +27,7 @@
 # If you want a test execution, you can use "--dry" option
 # Use: ./sync_loop_unix.sh text_file --dry
 
-LOGDIR=/root/LOG_imapsync
+LOGDIR=../LOG_imapsync
 
 #echo Looping on account credentials found in file.txt
 echo Looping on account credentials found in $1

@@ -20,13 +20,7 @@
     </div>
 </template>
 
-<style>
 
-.loading-spinner{
-  display: inline-block;
-}
-
-</style>
 
 <script>
 import VueBootstrap4Table from 'vue-bootstrap4-table'
@@ -73,6 +67,7 @@ const API_URL = "http://localhost:8081/api/v1/history";
             });
 
             this.rows = result;
+
           });
       },
     },
@@ -149,5 +144,9 @@ const API_URL = "http://localhost:8081/api/v1/history";
 <style>
 .input-group{
   display: none !important;
+}
+
+span{
+  display: inline-block;
 }
 </style>
