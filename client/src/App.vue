@@ -62,6 +62,7 @@ export default {
               return true;
             }else{
               localStorage.removeItem('token');
+              this.username = ''
               return false;
             }
           });
